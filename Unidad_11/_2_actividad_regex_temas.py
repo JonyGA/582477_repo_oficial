@@ -33,22 +33,36 @@ temas = [
     {"id_tema": 5, "nombre": "Positions", "autor": "Ariana Grande"},
 ]
 
+def validar_id(id):
+    """
+    retorna True si el valido o Falso si no lo es
+    """
+    patron = r"[1-9][0-9]*"
+    return bool(re.fullmatch(patron, id))
+
+    
+def buscar_tema_por_autor(autor:str):
+    """
+    Recibe el str del autor, busca y retorna una lista con las coincidencias
+    """
+    pass
 
 def buscar_tema_por_id(id_tema: int, temas: list):
     """
     Busca un tema en la lista TEMAS por su id.
     Retorna el diccionario del tema o None si no existe.
     """
-    # Validacion
-    if not isinstance(id_tema, int):
-        print("id_tema debe ser int")
-        return None
-
-    for tema in temas:
-        if tema["id_tema"] == id_tema:
-            return tema
+    # Opción 1: lista por comprensión
+    # return [t for t in temas if t["id_tema"] == id_tema]
+    # Opción 2: iterador con next
+    return next((t for t in temas if t["id_tema"] == id_tema), None)
+    
 
 
 # Menu principal
-id_tema = int(input("ID Tema: ").strip())
-print(buscar_tema_por_id(id_tema, temas))
+
+id_tema = input("ID Tema: ").strip()
+while not validar_id(id_tema):
+    print("El id_tema solo puede contener numeros.")
+    id_tema = input("ID Tema: ").strip()
+print(buscar_tema_por_id(int(id_tema), temas))
